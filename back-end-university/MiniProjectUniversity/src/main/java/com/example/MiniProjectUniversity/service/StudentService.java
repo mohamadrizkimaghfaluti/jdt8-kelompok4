@@ -21,8 +21,12 @@ public class StudentService {
 
     @Transactional(rollbackFor = Throwable.class)
     public Student createStudent(Student student){
-        Student student1 = buildModelFromRequest(student);
-        return repository.save(student1);
+        Student student1 = checkStudentIdNumber(student);
+        if (student1 == null){
+            return student1 = null;
+        }
+        repository.save(student1);
+        return student1;
     }
 
     @Transactional(readOnly = true)
@@ -36,9 +40,27 @@ public class StudentService {
         return "delete success";
     }
 
-    private Student buildModelFromRequest(Student student) {
+    @Transactional(readOnly = true)
+    public Student findStudentById(String id){
+        return repository.getById(id);
+    }
+
+    private Student checkStudentIdNumber(Student student) {
+        Student student2 = null;
+        List<Student> list = repository.findAll();
+        for (Student std : list){
+            if(std.getStudentIdNumber() == student.getStudentIdNumber()){
+                student2 = null;
+            }
+        }
+        Student student1 = insertStudentFromRequest(student);
+        student2 = student1;
+        return student2;
+    }
+
+    private Student insertStudentFromRequest(Student student) {
         Student student1 = new Student();
-        if (student.getIdStudent() == null || student.getIdStudent().equals("")){
+        if (student.getIdStudent() == null || student.getIdStudent().equals("")) {
             String id = UUID.randomUUID().toString();
 
             student1.setIdStudent(id);

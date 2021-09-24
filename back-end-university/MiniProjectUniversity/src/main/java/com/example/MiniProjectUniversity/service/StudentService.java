@@ -21,10 +21,7 @@ public class StudentService {
 
     @Transactional(rollbackFor = Throwable.class)
     public Student createStudent(Student student){
-        Student student1 = checkStudentIdNumber(student);
-        if (student1 == null){
-            return student1 = null;
-        }
+        Student student1 = insertStudentFromRequest(student);
         repository.save(student1);
         return student1;
     }
@@ -43,19 +40,6 @@ public class StudentService {
     @Transactional(readOnly = true)
     public Student findStudentById(String id){
         return repository.getById(id);
-    }
-
-    private Student checkStudentIdNumber(Student student) {
-        Student student2 = null;
-        List<Student> list = repository.findAll();
-        for (Student std : list){
-            if(std.getStudentIdNumber() == student.getStudentIdNumber()){
-                student2 = null;
-            }
-        }
-        Student student1 = insertStudentFromRequest(student);
-        student2 = student1;
-        return student2;
     }
 
     private Student insertStudentFromRequest(Student student) {

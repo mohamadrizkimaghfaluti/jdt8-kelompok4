@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import sun.rmi.runtime.NewThreadAction;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/student")
@@ -19,9 +20,12 @@ public class StudentController {
     private StudentService service;
 
     @PostMapping("/create")
-    public ResponseEntity<Student> create(@RequestBody Student student){
-        Student dataStudent = service.createStudent(student);
-        return new ResponseEntity<>(dataStudent, HttpStatus.CREATED);
+    public ResponseEntity<Object> create(@RequestBody Student student){
+        Boolean dataStudent = service.createStudent(student);
+        if (dataStudent.equals(true)){
+            return new ResponseEntity<>(true, HttpStatus.CREATED);
+        }
+        return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/getData")
@@ -30,14 +34,20 @@ public class StudentController {
     }
 
     @GetMapping("/getById/{id}")
-    public ResponseEntity<Student> findById(@PathVariable String id){
-        Student student = service.findStudentById(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Optional<Student>> findById(@PathVariable String id){
+        return new ResponseEntity<>(service.findStudentById(id), HttpStatus.OK);
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<Student> update(@RequestBody Student student){
+        Student std = service.updateStudent(student);
+        return new ResponseEntity<>(std, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
-    public Object delete(@PathVariable String id){
-        return service.deleteStudent(id);
+    public Object delete(@PathVariable("id") String id){
+        service.deleteStudent(id);
+        return true;
     }
 
 }

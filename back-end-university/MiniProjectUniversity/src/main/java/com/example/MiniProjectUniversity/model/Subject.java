@@ -5,12 +5,14 @@ import com.sun.istack.NotNull;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "subject")
 public class Subject {
 
+    @Id
     @NotNull
     @Column(name = "code_subject", length = 25)
     private String codeSubject;
@@ -20,12 +22,12 @@ public class Subject {
     private String nameSubject;
 
     @NotNull
-    @Column(name = "sks", length = 10)
-    private int Sks;
+    @Column(name = "sks")
+    private int sks;
 
     @NotNull
-    @Column(name = "semester", length = 50)
-    private String semester;
+    @Column(name = "semester")
+    private int semester;
 
 
     public String getCodeSubject() {return codeSubject;}
@@ -36,12 +38,12 @@ public class Subject {
 
     public void setNameSubject(String nameSubject) {this.nameSubject = nameSubject;}
 
-    public int getSks() {return Sks;}
+    public int getSks() {return sks;}
 
-    public void setSks(int sks) {Sks = sks;}
+    public void setSks(int sks) {this.sks = sks;}
 
-    public String getSemester() {return semester;}
+    public int getSemester() {return semester;}
 
-    public void setSemester(String semester) {this.semester = semester;}
+    public void setSemester(int semester) {this.semester = semester;}
 }
 

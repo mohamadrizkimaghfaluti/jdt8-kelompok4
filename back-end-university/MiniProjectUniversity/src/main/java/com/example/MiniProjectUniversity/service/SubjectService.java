@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -25,6 +26,24 @@ public class SubjectService {
         Subject subject1 = insertDataSubject(subject);
         repository.save(subject1);
         return subject1;
+    }
+
+    @Transactional(rollbackFor = Throwable.class)
+    public Subject update(Subject subject){
+        Subject subject1 = repository.save(subject);
+        return subject1;
+    }
+
+    @Transactional(rollbackFor = Throwable.class)
+    public Object delete(String id){
+        repository.deleteById(id);
+        return "delete suksess";
+    }
+
+    @Transactional(readOnly = true)
+    public Optional findById(String id){
+        Optional optional = repository.findById(id);
+        return optional;
     }
 
     private Subject insertDataSubject(Subject subject) {

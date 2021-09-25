@@ -3,11 +3,9 @@ package com.example.MiniProjectUniversity.controller;
 import com.example.MiniProjectUniversity.model.Student;
 import com.example.MiniProjectUniversity.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sun.rmi.runtime.NewThreadAction;
 
 import java.util.List;
 import java.util.Optional;

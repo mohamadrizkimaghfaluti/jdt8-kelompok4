@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -20,10 +21,13 @@ public class StudentService {
     private StudentRepository repository;
 
     @Transactional(rollbackFor = Throwable.class)
-    public Student createStudent(Student student){
-        Student student1 = insertStudentFromRequest(student);
+    public Boolean createStudent(Student student){
+        Student student1 = checkStudentIdNumber(student);
+        if (student1 == null){
+            return false;
+        }
         repository.save(student1);
-        return student1;
+        return true;
     }
 
     @Transactional(readOnly = true)
@@ -38,8 +42,24 @@ public class StudentService {
     }
 
     @Transactional(readOnly = true)
-    public Student findStudentById(String id){
-        return repository.getById(id);
+    public Optional findStudentById(String id){
+        return repository.findById(id);
+    }
+
+    @Transactional(rollbackFor = Throwable.class)
+    public Student updateStudent(Student student){
+        return repository.save(student);
+    }
+
+    private Student checkStudentIdNumber(Student student) {
+        List<Student> list = repository.findAll();
+        for (Student std: list){
+            if (std.getStudentIdNumber().equals(student.getStudentIdNumber())){
+                return null;
+            }
+        }
+        Student dataStudent = insertStudentFromRequest(student);
+        return dataStudent;
     }
 
     private Student insertStudentFromRequest(Student student) {

@@ -44,6 +44,6 @@ public class SubjectController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Object> delete(@PathVariable String id){
         Object data = service.delete(id);
-        return new ResponseEntity<>(data, HttpStatus.OK);
+        return new ResponseEntity<>(true, HttpStatus.OK);
     }
 }

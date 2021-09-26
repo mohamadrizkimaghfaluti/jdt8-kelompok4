@@ -6,7 +6,7 @@ spring:
   datasource:
     driver-class-name: org.postgresql.Driver
     username: postgres
-    password: 242424
+    password: rumahnya
     url: jdbc:postgresql://localhost:5432/db-mini-project-university
   jpa:
     generate-ddl: true

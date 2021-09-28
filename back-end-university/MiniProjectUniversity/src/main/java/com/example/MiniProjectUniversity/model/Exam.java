@@ -58,20 +58,20 @@ public class Exam {
         this.student = student;
     }
 
-    public Subject getSubject() {
-        return subject;
-    }
-
-    public void setSubject(Subject subject) {
-        this.subject = subject;
-    }
-
     public Lecturer getLecturer() {
         return lecturer;
     }
 
     public void setLecturer(Lecturer lecturer) {
         this.lecturer = lecturer;
+    }
+
+    public Subject getSubject() {
+        return subject;
+    }
+
+    public void setSubject(Subject subject) {
+        this.subject = subject;
     }
 
     public ExamLevel getExamLevel() {
@@ -97,5 +97,4 @@ public class Exam {
     public void setDate(Date date) {
         this.date = date;
     }
-
 }

@@ -1,18 +1,14 @@
 package com.example.MiniProjectUniversity.service;
 
 import com.example.MiniProjectUniversity.dto.ExamRequestDto;
+import com.example.MiniProjectUniversity.dto.ExamResponseDto;
 import com.example.MiniProjectUniversity.model.*;
 import com.example.MiniProjectUniversity.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -38,11 +34,78 @@ public class ExamService {
         return examList;
     }
 
+    public List<ExamResponseDto> findAllExam(){
+        List<ExamResponseDto> responseDtos = new ArrayList<>();
+        return buildResponseFromExam(responseDtos);
+    }
+
+    private List<ExamResponseDto> buildResponseFromExam(
+            List<ExamResponseDto> responseDtos) {
+        List<Exam> list = repository.findAllExam();
+        for (Exam exam: list) {
+            ExamResponseDto dto = new ExamResponseDto();
+            dto.setExamCode(exam.getExamCode());
+            dto.setSubject(exam.getSubject().getNameSubject());
+            dto.setStudent(exam.getStudent().getFullName());
+            dto.setLecturer(exam.getLecturer().getFullName());
+            dto.setSemester(exam.getSubject().getSemester());
+            dto.setExamLevel(exam.getExamLevel().getExamLevel());
+            dto.setScore(exam.getScore());
+            dto.setDate(exam.getDate());
+            responseDtos.add(dto);
+        }
+        return responseDtos;
+    }
+
     @Transactional(rollbackFor = Throwable.class)
     public Exam create(ExamRequestDto examRequestDto){
         Exam dataExam = insertDataExam(examRequestDto);
         repository.save(dataExam);
         return dataExam;
+    }
+
+    @Transactional(rollbackFor = Throwable.class)
+    public Exam update(ExamRequestDto examRequestDto){
+        Exam exam = updateDataExam(examRequestDto);
+        return repository.save(exam);
+    }
+
+    public ExamResponseDto findById(String id){
+        Optional<Exam> optional = repository.findById(id);
+        ExamResponseDto dto = buildResponseFromExamFindById(optional);
+        return dto;
+    }
+
+    private ExamResponseDto buildResponseFromExamFindById(Optional<Exam> optional) {
+        ExamResponseDto dto = new ExamResponseDto();
+        dto.setExamCode(optional.get().getExamCode());
+        dto.setSubject(optional.get().getSubject().getCodeSubject());
+        dto.setStudent(optional.get().getStudent().getIdStudent());
+        dto.setLecturer(optional.get().getLecturer().getIdLecturer());
+        dto.setExamLevel(optional.get().getExamLevel().getExamLevelCode());
+        dto.setScore(optional.get().getScore());
+        dto.setDate(optional.get().getDate());
+        return dto;
+    }
+
+    private Exam updateDataExam(ExamRequestDto examRequestDto) {
+        Exam exam = new Exam();
+        exam.setExamCode(examRequestDto.getExamCode());
+        exam.setScore(examRequestDto.getScore());
+        exam.setDate(date());
+
+        Subject subject = checkIdSubject(examRequestDto);
+        exam.setSubject(subject);
+
+        Student student = checkIdStudent(examRequestDto);
+        exam.setStudent(student);
+
+        Lecturer lecturer = checkIdLecturer(examRequestDto);
+        exam.setLecturer(lecturer);
+
+        ExamLevel level = checkExamLevelCode(examRequestDto);
+        exam.setExamLevel(level);
+        return exam;
     }
 
     private Exam insertDataExam(ExamRequestDto examRequestDto){
@@ -166,6 +229,12 @@ public class ExamService {
         long longDate = (date.getTime() + TimeUnit.DAYS.toMillis(30));
         date = new Date(longDate);
         return date;
+    }
+
+    @Transactional(rollbackFor = Throwable.class)
+    public Object delete(String id) {
+        repository.deleteById(id);
+        return "suksessss";
     }
 
 }

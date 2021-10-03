@@ -27,8 +27,9 @@ public class StudentController {
     }
 
     @GetMapping("/getData")
-    public List<Student> findAll(){
-        return service.findAllStudent();
+    public ResponseEntity<List<Student>> findAll(){
+        List<Student> studentList = service.findAllStudent();
+        return new ResponseEntity<>(studentList, HttpStatus.OK);
     }
 
     @GetMapping("/getById/{id}")
@@ -43,9 +44,9 @@ public class StudentController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public Object delete(@PathVariable("id") String id){
+    public ResponseEntity<Object> delete(@PathVariable("id") String id){
         service.deleteStudent(id);
-        return true;
+        return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
 }

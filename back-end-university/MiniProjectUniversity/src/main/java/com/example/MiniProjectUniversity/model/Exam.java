@@ -3,6 +3,7 @@ package com.example.MiniProjectUniversity.model;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -40,7 +41,7 @@ public class Exam {
 
     @NotNull
     @Column(name = "date")
-    private Date date;
+    private LocalDate date;
 
     public String getExamCode() {
         return examCode;
@@ -90,11 +91,11 @@ public class Exam {
         this.score = score;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 }

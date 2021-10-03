@@ -1,6 +1,7 @@
 package com.example.MiniProjectUniversity.dto;
 
 import javax.xml.crypto.Data;
+import java.time.LocalDate;
 import java.util.Date;
 
 public class ExamResponseDto {
@@ -12,7 +13,7 @@ public class ExamResponseDto {
     private int semester;
     private String examLevel;
     private int score;
-    private Date date;
+    private LocalDate date;
 
     public String getExamCode() {
         return examCode;
@@ -62,11 +63,11 @@ public class ExamResponseDto {
         this.score = score;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

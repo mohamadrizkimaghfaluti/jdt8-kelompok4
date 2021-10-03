@@ -1,6 +1,6 @@
 package com.example.MiniProjectUniversity.controller;
 
-import com.example.MiniProjectUniversity.dto.ReportDto;
+import com.example.MiniProjectUniversity.dto.ReportStudent;
 import com.example.MiniProjectUniversity.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,8 +19,8 @@ public class ReportController {
     private ReportService reportService;
 
     @GetMapping
-    public ResponseEntity<List<ReportDto>> reportStudent(){
-        List<ReportDto> reportDto = reportService.reportStudent();
-        return new ResponseEntity<>(reportDto, HttpStatus.OK);
+    public ResponseEntity<List<ReportStudent>> reportStudent(){
+        List<ReportStudent> o = reportService.reportStudent();
+        return new ResponseEntity<>(o, HttpStatus.OK);
     }
 }

@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class ExamService {
@@ -221,14 +221,9 @@ public class ExamService {
         return k;
     }
 
-    private Date date(){
-        /*DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
-        Date date = new Date();
-        return dateFormat.format(date);*/
-        Date date = new Date();
-        long longDate = (date.getTime() + TimeUnit.DAYS.toMillis(30));
-        date = new Date(longDate);
-        return date;
+    private LocalDate date(){
+        LocalDate localDate = LocalDate.now();
+        return localDate;
     }
 
     @Transactional(rollbackFor = Throwable.class)

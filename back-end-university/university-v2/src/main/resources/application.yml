@@ -1,0 +1,13 @@
+
+server:
+  port: 8080
+  error:
+    include-message: always
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: 242424
+    url: jdbc:postgresql://localhost:5432/db-mini-project-university
+  jpa:
+    generate-ddl: true
